@@ -52,14 +52,13 @@ overviewUI <- function(id) {
           tags$blockquote(
             style = "border-left: 4px solid #1a5e9f; padding-left: 1em;
                      color: #444; font-style: italic;",
-            "Gpenchev, G. (2026). EU Defence Policy Responses to External
-             Security Threats, 2004–2024: A Dynamic Time Warping Analysis
-             of Parliamentary Debate Alignment.",
-            tags$em("Journal of European Public Policy.")
+            "Penchev, G. (2026). Political Debate as a Filter: Defence
+             Policy Dynamics in EU Member States, 2004–2024.",
+            tags$em("Eastern Journal of European Studies (EJES), under review.")
           ),
           hr(),
-          p(strong("Method:"), "We build a monthly",
-            strong("Regional Threat Index"), "from UCDP GED conflict
+          p(strong("Method:"), "The monthly",
+            strong("Regional Threat Index"), "is built from UCDP GED conflict
             fatality data (1992–2024), detect structural breaks using the
             PELT algorithm, and classify 11 security regimes. We extract
             annual government and opposition", strong("defence stance"),

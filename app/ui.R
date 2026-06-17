@@ -53,7 +53,7 @@ ui <- page_navbar(
   nav_item(
     tags$small(
       style = "color:rgba(255,255,255,0.7); padding-right:8px;",
-      "EJES 2026 | Data: UCDP GED v26.1 · Manifesto MPDS2025a"
+      "EJES (under review) | Data: UCDP GED v26.1 · Manifesto MPDS2025a"
     )
   )
 )

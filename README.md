@@ -1,6 +1,7 @@
 # Replication Repository
 
-**EU Defence Policy Responses to External Security Threats, 2004–2024** *Measuring Alignment Between Parliamentary Debate and Conflict Threat via Dynamic Time Warping*
+**Political Debate as a Filter: Defence Policy Dynamics in EU Member States, 2004–2024**
+*Eastern Journal of European Studies (EJES), under review*
 
 ------------------------------------------------------------------------
 
@@ -325,7 +326,8 @@ Copy the entire `app/` directory to your Shiny Server apps folder. The app is se
 
 If you use these scripts, please cite the paper:
 
-> \[Author(s)\] (\[Year\]). \[Title\]. *\[Journal\]*, [Volume](%5BIssue%5D), \[Pages\]. DOI: \[DOI\]
+> Gpenchev, G. (2026). Political Debate as a Filter: Defence Policy Dynamics
+> in EU Member States, 2004–2024. *Eastern Journal of European Studies (EJES)*, under review.
 
 And the underlying datasets as listed in the individual script headers.
 
