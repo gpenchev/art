@@ -28,15 +28,16 @@
 #                 (MPDS2025a). WZB Berlin Social Science Center.
 #                 https://doi.org/10.25522/manifesto.mpds.2025a
 #
-#   (B) ParlGov "stable" release (2024)
-#       URL:      https://parlgov.org/data/
-#       Navigate: "Stable release" → Download ZIP → extract files
-#       Save as:  data/raw/view_cabinet.csv
-#                 data/raw/view_election.csv
-#                 data/raw/view_party.csv
+#   (B) ParlGov (Harvard Dataverse)
+#       Download page:
+#         https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/2VZ5ZC
+#       For each file: click the download arrow (↓) → "Comma Separated Values"
+#       Save as:  view_cabinet.tab  → data/raw/view_cabinet.csv
+#                 view_election.tab → data/raw/view_election.csv
+#                 view_party.tab    → data/raw/view_party.csv
 #       Licence:  CC0 (public domain)
 #       Citation: Döring, H. & Manow, P. (2024). Parliaments and governments
-#                 database (ParlGov). parlgov.org
+#                 database (ParlGov). https://doi.org/10.7910/DVN/2VZ5ZC
 #
 # Input:
 #   data/raw/MPDataset_MPDS2025a.csv

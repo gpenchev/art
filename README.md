@@ -137,19 +137,21 @@ Or download manually:
 
 ---
 
-### 3. ParlGov Data — **required for scripts 02, 02b** *(smaller files, easier download)*
+### 3. ParlGov Data — **required for scripts 02, 02b**
 
 | Field | Value |
 |---|---|
-| Source | ParlGov (stable 2024 release) |
-| URL | https://www.parlgov.org/data/ |
+| Source | ParlGov (Harvard Dataverse) |
+| Download page | https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/2VZ5ZC |
 
-**Download steps:**
-1. Go to https://www.parlgov.org/data/parlgov-stable.csv.zip or the individual CSV exports at https://www.parlgov.org/static/data/
-2. Download and save the following files:
-   - `view_cabinet.csv` → `data/raw/view_cabinet.csv`
-   - `view_election.csv` → `data/raw/view_election.csv`
-   - `view_party.csv` → `data/raw/view_party.csv`
+**Download steps (repeat for each of the three files):**
+
+1. Go to https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/2VZ5ZC
+2. In the file list on the right, locate `view_cabinet.tab` and click the **download arrow** (↓) next to it
+3. Choose **"Comma Separated Values (Original file converted)"**
+4. Save as `data/raw/view_cabinet.csv`
+5. Repeat for `view_election.tab` → save as `data/raw/view_election.csv`
+6. Repeat for `view_party.tab` → save as `data/raw/view_party.csv`
 
 ---
 
@@ -158,14 +160,15 @@ Or download manually:
 | Field | Value |
 |---|---|
 | Source | Caldara & Iacoviello (2022) |
-| URL | https://www.matteoiacoviello.com/gpr.htm |
-| File to download | `data_gpr_export.xls` (Stata/Excel format) |
+| Main page | https://www.matteoiacoviello.com/gpr.htm |
+| Direct download | https://www.matteoiacoviello.com/gpr_files/data_gpr_export.xls |
 | Save as | `data/raw/data_gpr_export.xls` |
 
 **Download steps:**
-1. Go to https://www.matteoiacoviello.com/gpr.htm
-2. Download the **Stata (.dta) or Excel** data file
-3. Save as `data/raw/data_gpr_export.xls`
+1. Direct link: https://www.matteoiacoviello.com/gpr_files/data_gpr_export.xls — click to download
+2. Save as `data/raw/data_gpr_export.xls`
+
+   *Alternatively:* go to https://www.matteoiacoviello.com/gpr.htm and download the Excel data file from the data section.
 
 > Script `01c_gpr_comparison.R` is an *optional* robustness check comparing UCDP-based threat with the GPR index. The main pipeline (scripts 01–05) runs without it.
 

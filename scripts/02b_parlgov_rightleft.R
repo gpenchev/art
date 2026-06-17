@@ -18,12 +18,11 @@
 #
 # Data sources (all already present from script 02)
 # ------------------------------------------------
-# • ParlGov (stable release 2024) — view_cabinet.csv, view_party.csv
-#   → Download: https://www.parlgov.org/data/parlgov-stable.csv.zip
-#     or via the database export at https://www.parlgov.org/static/data/
-#     Extract and save the two CSV files as:
-#       data/raw/view_cabinet.csv
-#       data/raw/view_party.csv
+# • ParlGov — view_cabinet.csv, view_party.csv
+#   → Download page: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/2VZ5ZC
+#     For each file: click the download arrow (↓) → choose "Comma Separated Values"
+#       view_cabinet.tab  → save as data/raw/view_cabinet.csv
+#       view_party.tab    → save as data/raw/view_party.csv
 # • stance_time_series.csv — produced by script 02_manifesto_parlgov.R
 #
 # Inputs

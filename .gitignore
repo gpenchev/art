@@ -10,6 +10,7 @@ data/raw/MPDataset_MPDS2025a.csv
 data/raw/SIPRI-Milex-data-1949-2025*.xlsx
 data/raw/data_gpr_export.xls
 data/raw/*.dta
+data/raw/*.csv
 
 # ParlGov files are small enough to include if redistribution is permitted;
 # comment out the lines below to track them in git.

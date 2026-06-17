@@ -46,27 +46,25 @@ Files listed as **Manual** must be downloaded by the user.
 ### 3. ParlGov Data — three CSV files
 
 - **Used by:** `scripts/02_manifesto_parlgov.R`, `02b_parlgov_rightleft.R`
-- **URL:** https://www.parlgov.org/data/
+- **Download page:** https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/2VZ5ZC
 - **Steps:**
-  1. Download the stable (2024) release CSV export
-  2. Save the following files:
-
-| Filename | Save as |
-|---|---|
-| Cabinet view | `data/raw/view_cabinet.csv` |
-| Election view | `data/raw/view_election.csv` |
-| Party view | `data/raw/view_party.csv` |
+  1. Go to the download page above
+  2. Locate `view_cabinet.tab` in the file list, click the **download arrow** (↓), choose **"Comma Separated Values"**, save as `data/raw/view_cabinet.csv`
+  3. Repeat for `view_election.tab` → save as `data/raw/view_election.csv`
+  4. Repeat for `view_party.tab` → save as `data/raw/view_party.csv`
 
 ---
 
 ### 4. GPR Index — `data_gpr_export.xls` *(optional)*
 
 - **Used by:** `scripts/01c_gpr_comparison.R` (optional robustness check only)
-- **URL:** https://www.matteoiacoviello.com/gpr.htm
+- **Main page:** https://www.matteoiacoviello.com/gpr.htm
+- **Direct download:** https://www.matteoiacoviello.com/gpr_files/data_gpr_export.xls
 - **Steps:**
-  1. Scroll to the data download section
-  2. Download the Excel or Stata (.dta) file
-  3. Save as `data/raw/data_gpr_export.xls`
+  1. Click the direct link above to download `data_gpr_export.xls`
+  2. Save as `data/raw/data_gpr_export.xls`
+  
+  *Alternatively:* go to https://www.matteoiacoviello.com/gpr.htm and download the Excel data file from the data section.
 - **Note:** Script `01c` is optional; the main pipeline (01 → 05) runs without it.
 
 ---
