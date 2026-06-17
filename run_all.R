@@ -39,7 +39,7 @@
 #   02b  : ParlGov left-right positions + correlation with stance
 #   02c  : Eurostat GDP weights + GDP-weighted EU average trends
 #   02d  : Eurostat + WDI population (EU + neighbourhood)
-#   02e  : SIPRI military spending via WDI + COFOG comparison
+#   02e  : SIPRI military spending via WDI + COFOG comparison  ← slow (~5 min)
 #   02f  : Eurostat COFOG defence spending (GF02 % GDP, % govt)
 #
 # Stage 3 — DTW Metrics
@@ -53,7 +53,30 @@
 # Stage 5 — Final Table
 #   05   : Assemble master comparison table + cluster labels
 #
-# Estimated run time: 30-90 minutes (dominated by API downloads in stage 2)
+# Estimated run time: ~15 minutes (verified on first run: 13.3 min)
+#   Slowest scripts: 02e (SIPRI via WDI, ~5 min), 02d (WDI population, ~3 min)
+#
+# WDI API stability note
+# ----------------------
+# The World Bank WDI API (used in 01b, 02d, 02e) is occasionally unstable
+# and may return HTTP errors or empty responses.  If 01b, 02d or 02e fail
+# or produce warnings about missing countries, simply re-run this script —
+# transient API errors almost always resolve on a second attempt.
+# The scripts download one country at a time with Sys.sleep(0.5) to reduce
+# the chance of rate-limit errors.
+#
+# Expected warnings (all harmless — do not indicate data errors)
+# ---------------------------------------------------------------
+# • "standard deviation is zero" (cor() in 02b): some countries have
+#   constant cabinet left-right scores over the study period (e.g. Finland).
+#   Pearson r is undefined for constant series; NA is returned correctly.
+# • "no non-missing arguments to max; returning -Inf" (03b): 6 countries
+#   (Cyprus, Greece, Hungary, Luxembourg, Malta, Sweden) have no opposition
+#   stance data; their DTW ranges are NA and max() returns -Inf as expected.
+# • "NaNs produced in pf()" (04/04b): NbClust's Beale index produces NaN
+#   for degenerate cluster configurations during the search over k=2..8.
+#   This is a known quirk of NbClust and does not affect the majority-vote
+#   result or the final cluster assignments.
 # =============================================================================
 
 # ── Timing ────────────────────────────────────────────────────────────────────
@@ -91,7 +114,7 @@ run_script <- function(path, optional = FALSE) {
 # ── Stage 1: Threat Index ─────────────────────────────────────────────────────
 cat("--- STAGE 1: THREAT INDEX ---\n\n")
 run_script("scripts/01_threat_index.R")
-run_script("scripts/01b_threat_robustness.R")
+run_script("scripts/01b_threat_robustness.R")  # uses WDI API — retry if errors
 run_script("scripts/01c_gpr_comparison.R", optional = TRUE)  # GPR is optional
 
 # ── Stage 2: Stance and Contextual Variables ──────────────────────────────────
@@ -99,8 +122,8 @@ cat("--- STAGE 2: STANCE AND CONTEXT ---\n\n")
 run_script("scripts/02_manifesto_parlgov.R")
 run_script("scripts/02b_parlgov_rightleft.R")
 run_script("scripts/02c_gdp_eurostat.R")
-run_script("scripts/02d_population.R")
-run_script("scripts/02e_sipri_wdi.R")
+run_script("scripts/02d_population.R")        # uses WDI API — retry if errors
+run_script("scripts/02e_sipri_wdi.R")          # slow: downloads 28 countries via WDI (~5 min)
 run_script("scripts/02f_defence_gdp_eurostat.R")
 
 # ── Stage 3: DTW Metrics ──────────────────────────────────────────────────────
@@ -117,6 +140,11 @@ run_script("scripts/04b_clustering_robustness.R")
 cat("--- STAGE 5: FINAL TABLE ---\n\n")
 run_script("scripts/05_comparison_table.R")
 
+# ── Stage 6: App Data ─────────────────────────────────────────────────────────
+cat("--- STAGE 6: APP DATA ---\n\n")
+cat("Building app/data/app_data.rda for the Shiny application...\n")
+run_script("scripts/06_app_data.R", optional = TRUE)
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 total_elapsed <- (proc.time() - pipeline_start)[["elapsed"]]
 cat("=============================================================\n")
@@ -130,3 +158,5 @@ cat("  data/processed/dtw_metrics.csv                   — DTW metrics\n")
 cat("  data/processed/cluster_assignments_threat.csv    — cluster assignments\n")
 cat("  report/05_final_summary_report.txt               — pipeline summary\n\n")
 cat("Review all report/*.txt files for diagnostics and decision flags.\n")
+cat("\nTo launch the Shiny application:\n")
+cat("  shiny::runApp('app')\n")
