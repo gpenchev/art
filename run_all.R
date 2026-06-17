@@ -17,7 +17,7 @@
 # Prerequisites
 # -------------
 # Before running, ensure the following files are present in data/raw/:
-#   • ged251.csv                  (UCDP GED v25.1 — manual download required)
+#   • GEDEvent_v26_1.csv          (UCDP GED v26.1 — manual download required)
 #   • MPDataset_MPDS2025a.csv     (Manifesto Project — manual download required)
 #   • view_cabinet.csv            (ParlGov — manual download required)
 #   • view_election.csv           (ParlGov — manual download required)

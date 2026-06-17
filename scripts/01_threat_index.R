@@ -10,17 +10,27 @@
 # Paper section: Section 3 – "Measuring External Threat"
 #
 # Data source (MANUAL DOWNLOAD REQUIRED):
-#   UCDP GED v25.1
-#   URL:      https://ucdp.uu.se/downloads/
-#   Navigate: "GED Global" → version 25.1 → download CSV
-#   Save as:  data/raw/ged251.csv
+#   UCDP GED v26.1
+#   URL:      https://ucdp.uu.se/downloads/ged/ged261-csv.zip
+#   The ZIP archive contains one file: GEDEvent_v26_1.csv
+#
+#   Download and prepare with these shell commands:
+#     cd data/raw
+#     curl -L -o ged261-csv.zip https://ucdp.uu.se/downloads/ged/ged261-csv.zip
+#     unzip -j ged261-csv.zip
+#     rm ged261-csv.zip
+#     cd ../..
+#
 #   Licence:  Creative Commons Attribution 4.0 (CC BY 4.0)
-#   Citation: Sundberg, R. & Melander, E. (2013). Introducing the UCDP
+#   Citation: Davies, S., Pettersson, T., & Öberg, M. (2026). Organized
+#             violence 1989–2025, and violent political protests.
+#             Journal of Peace Research.
+#             https://doi.org/10.1093/jopres/xjag046
+#             Sundberg, R. & Melander, E. (2013). Introducing the UCDP
 #             Georeferenced Event Dataset. Journal of Peace Research 50(4).
-#             Davies et al. (2023). Organized Violence 1989-2022. JPR 60(4).
 #
 # Input:
-#   data/raw/ged251.csv
+#   data/raw/GEDEvent_v26_1.csv
 #
 # Output:
 #   data/processed/regional_threat_index.csv   – monthly fatalities + log index
@@ -64,11 +74,11 @@ neighbourhood_countries <- c(balkans, eastern_partnership,
                               north_africa, levant, other)
 
 # ── 2. LOAD RAW GED DATA ──────────────────────────────────────────────────────
-# The GED CSV (~239 MB) must be placed at data/raw/ged251.csv before running.
-# See file header for download instructions.
+# GEDEvent_v26_1.csv must be placed at data/raw/GEDEvent_v26_1.csv before
+# running. See the file header for download and unzip instructions.
 
 cat("Loading UCDP GED data...\n")
-ged_raw <- read_csv("data/raw/ged251.csv", show_col_types = FALSE)
+ged_raw <- read_csv("data/raw/GEDEvent_v26_1.csv", show_col_types = FALSE)
 
 cat("GED raw rows:", nrow(ged_raw), "\n")
 cat("GED columns:", paste(names(ged_raw), collapse = ", "), "\n")

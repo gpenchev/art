@@ -5,7 +5,7 @@
 # ── Large / licensed raw data files ──────────────────────────────────────────
 # These must be downloaded manually (see README.md).
 # They are too large or under restrictive licences to include in the repo.
-data/raw/ged251.csv
+data/raw/GEDEvent_v26_1.csv
 data/raw/MPDataset_MPDS2025a.csv
 data/raw/SIPRI-Milex-data-1949-2025*.xlsx
 data/raw/data_gpr_export.xls

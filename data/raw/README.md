@@ -9,16 +9,24 @@ Files listed as **Manual** must be downloaded by the user.
 
 ## Manual Downloads
 
-### 1. UCDP GED v25.1 — `ged251.csv`
+### 1. UCDP GED v26.1 — `GEDEvent_v26_1.csv`
 
 - **Used by:** `scripts/01_threat_index.R`, `01b_threat_robustness.R`, `01c_gpr_comparison.R`
-- **URL:** https://ucdp.uu.se/downloads/
-- **Steps:**
-  1. Navigate to "UCDP Georeferenced Event Dataset (GED) Global"
-  2. Select version **25.1**
-  3. Download the **CSV** format (~239 MB)
-  4. Save as `data/raw/ged251.csv`
-- **Registration:** may be required
+- **Direct ZIP URL:** https://ucdp.uu.se/downloads/ged/ged261-csv.zip
+- **Licence:** CC BY 4.0 — no registration required
+- **Shell commands (recommended):**
+  ```bash
+  cd data/raw
+  curl -L -o ged261-csv.zip https://ucdp.uu.se/downloads/ged/ged261-csv.zip
+  unzip -j ged261-csv.zip
+  rm ged261-csv.zip
+  cd ../..
+  ```
+- **Manual steps:**
+  1. Download https://ucdp.uu.se/downloads/ged/ged261-csv.zip (~250 MB)
+  2. Unzip with flat extract: `unzip -j ged261-csv.zip` — `GEDEvent_v26_1.csv` lands directly in `data/raw/`
+  3. Delete the ZIP file
+- **Citation:** Davies, S., Pettersson, T., & Öberg, M. (2026). Organized violence 1989–2025, and violent political protests. *Journal of Peace Research*. https://doi.org/10.1093/jopres/xjag046
 
 ---
 

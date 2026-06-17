@@ -92,18 +92,28 @@ Two datasets **cannot** be downloaded automatically (licence or size constraints
 | Field | Value |
 |---|---|
 | Source | Uppsala Conflict Data Program |
-| Version | GED Global v25.1 (2025 release) |
-| URL | https://ucdp.uu.se/downloads/ |
-| File to download | `ged251.csv` (≈ 239 MB) |
-| Save as | `data/raw/ged251.csv` |
+| Version | GED Global v26.1 (2026 release, covers 1989–2025) |
+| URL | https://ucdp.uu.se/downloads/ged/ged261-csv.zip |
+| ZIP contains | `ged261-csv/GEDEvent_v26_1.csv` (≈ 250 MB) |
+| Save as | `data/raw/GEDEvent_v26_1.csv` |
 
-**Download steps:**
-1. Go to https://ucdp.uu.se/downloads/
-2. Under "UCDP Georeferenced Event Dataset (GED) Global", select version **25.1**
-3. Download the **CSV** format
-4. Save the file as `data/raw/ged251.csv`
+**Download and prepare (shell commands):**
 
-> **Note:** The file is large (239 MB). Registration may be required.
+```bash
+cd data/raw
+curl -L -o ged261-csv.zip https://ucdp.uu.se/downloads/ged/ged261-csv.zip
+unzip -j ged261-csv.zip
+rm ged261-csv.zip
+cd ../..
+```
+
+Or download manually:
+1. Go to https://ucdp.uu.se/downloads/ged/ged261-csv.zip
+2. Unzip the archive with the `-j` flag (flat extract — no subdirectory created): `unzip -j ged261-csv.zip`
+3. `GEDEvent_v26_1.csv` will appear directly in `data/raw/`
+4. Delete the ZIP file
+
+> **Note:** The file is large (~250 MB). No registration required (CC BY 4.0 licence).
 
 ---
 

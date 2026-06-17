@@ -17,12 +17,12 @@
 #   (B) Neighbourhood population – downloaded automatically from World Bank WDI API
 #       WDI indicator: SP.POP.TOTL (total population)
 #       No registration required; requires internet connection.
-#   (C) GED data – see 01_threat_index.R header for download instructions
-#       Save as: data/raw/ged251.csv
+#   (C) GED data – see 01_threat_index.R header for full download and unzip
+#       instructions.  File: data/raw/GEDEvent_v26_1.csv
 #
 # Input:
 #   data/processed/regional_threat_index.csv   (from 01_threat_index.R)
-#   data/raw/ged251.csv                        (manual download – see above)
+#   data/raw/GEDEvent_v26_1.csv                (manual download – see 01_threat_index.R)
 #   WDI API (SP.POP.TOTL)                      (downloaded automatically)
 #
 # Output:
@@ -288,10 +288,11 @@ cat("Saved: data/processed/distance_weights.csv\n")
 
 # ── 6. RELOAD GED FOR COUNTRY-LEVEL MONTHLY SERIES ───────────────────────────
 # We need per-country monthly fatalities to apply distance weights.
-# The GED data must already be at data/raw/ged251.csv (see 01_threat_index.R).
+# GEDEvent_v26_1.csv must already be at data/raw/ (see 01_threat_index.R header
+# for download and unzip instructions).
 
 cat("Loading GED for country-level aggregation...\n")
-ged_raw <- read_csv("data/raw/ged251.csv", show_col_types = FALSE) %>%
+ged_raw <- read_csv("data/raw/GEDEvent_v26_1.csv", show_col_types = FALSE) %>%
   mutate(country = case_when(
     country == "Russia (Soviet Union)" ~ "Russia",
     country == "Serbia (Yugoslavia)"   ~ "Serbia",
