@@ -1,0 +1,251 @@
+# Replication Repository
+
+**EU Defence Policy Responses to External Security Threats, 2004–2024**
+*Measuring Alignment Between Parliamentary Debate and Conflict Threat via Dynamic Time Warping*
+
+---
+
+## Overview
+
+This repository contains the complete data-processing pipeline for the paper. The pipeline:
+
+1. Builds a **Regional Threat Index** from UCDP GED conflict fatalities using structural break detection (PELT algorithm).
+2. Extracts annual **government and opposition defence stance** time series from Manifesto Project data combined with ParlGov cabinet information.
+3. Computes **Dynamic Time Warping (DTW)** distances between stance and threat series as the primary analytical metrics.
+4. Classifies 28 EU+UK countries into **behavioural typologies** via NbClust + k-means clustering.
+5. Performs robustness checks on all three stages.
+
+All scripts are written in **R** and follow a sequential pipeline: `01 → 01b → 01c → 02 → … → 05`. The complete pipeline can be run with a single command (see below).
+
+---
+
+## Repository Structure
+
+```
+prepare/
+├── README.md               This file
+├── run_all.R               Master script — runs the complete pipeline
+├── .gitignore
+├── scripts/                R processing scripts (14 files)
+│   ├── 01_threat_index.R
+│   ├── 01b_threat_robustness.R
+│   ├── 01c_gpr_comparison.R
+│   ├── 02_manifesto_parlgov.R
+│   ├── 02b_parlgov_rightleft.R
+│   ├── 02c_gdp_eurostat.R
+│   ├── 02d_population.R
+│   ├── 02e_sipri_wdi.R
+│   ├── 02f_defence_gdp_eurostat.R
+│   ├── 03_dtw_metrics.R
+│   ├── 03b_dtw_robustness.R
+│   ├── 04_clustering.R
+│   ├── 04b_clustering_robustness.R
+│   └── 05_comparison_table.R
+├── data/
+│   ├── raw/                Raw input data (see download instructions below)
+│   │   └── README.md
+│   └── processed/          Auto-generated outputs (created by scripts)
+├── report/                 Auto-generated diagnostic reports (one per script)
+└── app/                    Shiny application (planned)
+```
+
+---
+
+## Requirements
+
+### R version
+
+R ≥ 4.2.0 is recommended.
+
+### R packages
+
+Install all required packages at once:
+
+```r
+install.packages(c(
+  "tidyverse", "lubridate", "zoo",
+  "changepoint",
+  "dtw",
+  "eurostat", "WDI", "haven",
+  "NbClust", "factoextra", "cluster", "mclust",
+  "geosphere"
+))
+```
+
+For fully reproducible package versions, restore the environment from `renv.lock`:
+
+```r
+install.packages("renv")
+renv::restore()
+```
+
+---
+
+## Data: What to Download Manually
+
+Two datasets **cannot** be downloaded automatically (licence or size constraints) and must be placed in `data/raw/` before running the pipeline. All other data are fetched automatically via API.
+
+---
+
+### 1. UCDP Georeferenced Event Dataset (GED) — **required for scripts 01, 01b, 01c**
+
+| Field | Value |
+|---|---|
+| Source | Uppsala Conflict Data Program |
+| Version | GED Global v25.1 (2025 release) |
+| URL | https://ucdp.uu.se/downloads/ |
+| File to download | `ged251.csv` (≈ 239 MB) |
+| Save as | `data/raw/ged251.csv` |
+
+**Download steps:**
+1. Go to https://ucdp.uu.se/downloads/
+2. Under "UCDP Georeferenced Event Dataset (GED) Global", select version **25.1**
+3. Download the **CSV** format
+4. Save the file as `data/raw/ged251.csv`
+
+> **Note:** The file is large (239 MB). Registration may be required.
+
+---
+
+### 2. Manifesto Project Dataset — **required for script 02**
+
+| Field | Value |
+|---|---|
+| Source | Manifesto Project (WZB Berlin) |
+| Version | MPDS2025a |
+| URL | https://manifesto-project.wzb.eu/datasets |
+| File to download | `MPDataset_MPDS2025a.csv` |
+| Save as | `data/raw/MPDataset_MPDS2025a.csv` |
+
+**Download steps:**
+1. Register for a free account at https://manifesto-project.wzb.eu/
+2. Go to **Datasets → Main Dataset**
+3. Download version **MPDS2025a** as CSV
+4. Save the file as `data/raw/MPDataset_MPDS2025a.csv`
+
+> **Note:** Free registration is required. The dataset includes the `per104` variable (Military: Positive) used as the pro-military rhetoric indicator.
+
+---
+
+### 3. ParlGov Data — **required for scripts 02, 02b** *(smaller files, easier download)*
+
+| Field | Value |
+|---|---|
+| Source | ParlGov (stable 2024 release) |
+| URL | https://www.parlgov.org/data/ |
+
+**Download steps:**
+1. Go to https://www.parlgov.org/data/parlgov-stable.csv.zip or the individual CSV exports at https://www.parlgov.org/static/data/
+2. Download and save the following files:
+   - `view_cabinet.csv` → `data/raw/view_cabinet.csv`
+   - `view_election.csv` → `data/raw/view_election.csv`
+   - `view_party.csv` → `data/raw/view_party.csv`
+
+---
+
+### 4. GPR (Geopolitical Risk Index) — **required for script 01c** *(optional robustness check)*
+
+| Field | Value |
+|---|---|
+| Source | Caldara & Iacoviello (2022) |
+| URL | https://www.matteoiacoviello.com/gpr.htm |
+| File to download | `data_gpr_export.xls` (Stata/Excel format) |
+| Save as | `data/raw/data_gpr_export.xls` |
+
+**Download steps:**
+1. Go to https://www.matteoiacoviello.com/gpr.htm
+2. Download the **Stata (.dta) or Excel** data file
+3. Save as `data/raw/data_gpr_export.xls`
+
+> Script `01c_gpr_comparison.R` is an *optional* robustness check comparing UCDP-based threat with the GPR index. The main pipeline (scripts 01–05) runs without it.
+
+---
+
+### Automatically Downloaded Data (no action required)
+
+The following datasets are fetched automatically when the scripts run:
+
+| Dataset | Script | Package | Notes |
+|---|---|---|---|
+| Eurostat GDP (`nama_10_gdp`) | 02c | `{eurostat}` | Cached locally after first run |
+| Eurostat Population (`demo_pjan`) | 02d | `{eurostat}` | Cached locally |
+| Eurostat COFOG Defence (`gov_10a_exp`) | 02f | `{eurostat}` | Cached locally |
+| World Bank Population (`SP.POP.TOTL`) | 02d | `{WDI}` | Per-country loop, rate-limited |
+| World Bank SIPRI Spending | 02e | `{WDI}` | Per-country loop, rate-limited |
+
+---
+
+## Running the Pipeline
+
+### Option A — Run everything at once
+
+```r
+setwd("path/to/prepare")
+source("run_all.R")
+```
+
+### Option B — Run scripts individually (in order)
+
+```r
+setwd("path/to/prepare")
+source("scripts/01_threat_index.R")
+source("scripts/01b_threat_robustness.R")
+source("scripts/01c_gpr_comparison.R")   # optional
+source("scripts/02_manifesto_parlgov.R")
+source("scripts/02b_parlgov_rightleft.R")
+source("scripts/02c_gdp_eurostat.R")
+source("scripts/02d_population.R")
+source("scripts/02e_sipri_wdi.R")
+source("scripts/02f_defence_gdp_eurostat.R")
+source("scripts/03_dtw_metrics.R")
+source("scripts/03b_dtw_robustness.R")
+source("scripts/04_clustering.R")
+source("scripts/04b_clustering_robustness.R")
+source("scripts/05_comparison_table.R")
+```
+
+> All scripts must be run from the `prepare/` directory so that relative paths (`data/raw/`, `data/processed/`, `report/`) resolve correctly.
+
+---
+
+## Outputs
+
+After the pipeline completes, `data/processed/` will contain:
+
+| File | Produced by | Description |
+|---|---|---|
+| `regional_threat_index.csv` | 01 | Monthly EU regional threat index |
+| `threat_index_variants.csv` | 01b | Three alternative threat index variants |
+| `threat_index_country_specific.csv` | 01b | Distance-weighted threat per EU country |
+| `stance_time_series.csv` | 02 | Annual gov/opp defence stance per country |
+| `cabinet_rightleft.csv` | 02b | Annual cabinet left-right score |
+| `gdp_weights.csv` | 02c | Annual GDP weights (EU-27) |
+| `population_combined.csv` | 02d | EU + neighbourhood population |
+| `sipri_spending.csv` | 02e | SIPRI military expenditure |
+| `defence_gdp_share.csv` | 02f | COFOG defence % GDP and % govt |
+| `dtw_metrics.csv` | 03 | Core DTW metrics (3 per country) |
+| `dtw_metrics_robustness.csv` | 03b | DTW metrics for alternative variants |
+| `cluster_assignments_threat.csv` | 04 | Threat cluster assignments |
+| `cluster_assignments.csv` | 04 | Spending cluster assignments |
+| `cluster_robustness.csv` | 04b | Stability flags per country |
+| `final_comparison_table.csv` | 05 | **Master comparison table** |
+| `final_comparison_table_paper.csv` | 05 | Publication-formatted table |
+
+Diagnostic reports are written to `report/` (one `.txt` file per script).
+
+---
+
+## Citation
+
+If you use these scripts, please cite the paper:
+
+> [Author(s)] ([Year]). [Title]. *[Journal]*, [Volume]([Issue]), [Pages]. DOI: [DOI]
+
+And the underlying datasets as listed in the individual script headers.
+
+---
+
+## Licence
+
+Scripts: MIT Licence (see `LICENSE`).
+Data: subject to the terms of each data provider (see download instructions above).

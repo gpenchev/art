@@ -1,0 +1,52 @@
+# =============================================================================
+# .gitignore — EU Defence Pipeline Repository
+# =============================================================================
+
+# ── Large / licensed raw data files ──────────────────────────────────────────
+# These must be downloaded manually (see README.md).
+# They are too large or under restrictive licences to include in the repo.
+data/raw/ged251.csv
+data/raw/MPDataset_MPDS2025a.csv
+data/raw/SIPRI-Milex-data-1949-2025*.xlsx
+data/raw/data_gpr_export.xls
+data/raw/*.dta
+
+# ParlGov files are small enough to include if redistribution is permitted;
+# comment out the lines below to track them in git.
+# data/raw/view_cabinet.csv
+# data/raw/view_election.csv
+# data/raw/view_party.csv
+
+# ── Auto-generated processed data ────────────────────────────────────────────
+# All files in data/processed/ are created by the scripts; they are
+# reproducible and do not need to be version-controlled.
+data/processed/*.csv
+data/processed/*.rds
+
+# ── Auto-generated reports ────────────────────────────────────────────────────
+# report/ files are reproducible outputs; exclude them from git.
+report/*.txt
+
+# ── R environment files ────────────────────────────────────────────────────────
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+
+# renv: track renv.lock (pinned package versions) but not the renv library
+renv/library/
+renv/staging/
+renv/sandbox/
+.renv/
+
+# ── OS and editor artefacts ────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*~
+*.swp
+
+# ── Eurostat cache ────────────────────────────────────────────────────────────
+# The {eurostat} package caches downloaded data locally; exclude the cache.
+eurostat_cache/
